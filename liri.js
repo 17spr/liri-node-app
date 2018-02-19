@@ -38,7 +38,7 @@ if (movieThis === 'movie-this' && movieName) {
 } else if (movieThis != true) {
   console.log("You must type `movie-this` before typing the movie name. For example: node liri.js movie-this cinderella")
 }
-// creating the function that performs the request
+// creating the function that performs the OMDB API request
 function getMovie() {
   var request = require("request");
 
@@ -47,7 +47,7 @@ var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey
 console.log("URL: " + queryUrl);
 
 request(queryUrl, function(error, response, body) {
-  // handling errors
+  
   if (!error && response.statusCode === 200) {
     // logging the JSON response for the data required in the homework description (title, release year, etc.)
     console.log("Title: " + JSON.parse(body).Title);
