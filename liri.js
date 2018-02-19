@@ -14,7 +14,7 @@ var myKeys = require("./keys.js")
 // single-word movie name: 
          // node .\liri.js movie-this cinderella
 // IMPORTANT:
-// ***If the movie name has multiple words (i.e. How the Grinch Stole Christmas, write the name in quotes. Otherwise it won't work.****
+// ***If the movie name has multiple words (i.e. How the Grinch Stole Christmas), write the name in quotes. Otherwise it won't work.****
 // .....................................................
 
 
