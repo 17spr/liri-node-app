@@ -5,9 +5,11 @@ var myKeys = require("./keys.js")
 
 // Spotify API ======================================
 var Spotify = require('node-spotify-api');
-var spotify = new Spotify(myKeys.spotify);
+var spotify = new Spotify({
+  id: process.env.SPOTIFY_ID,
+  secret: process.env.SPOTIFY_SECRET
+});
 var spotifyThisSong = process.argv[2];
-var songName = process.argv[3];
 
 if (spotifyThisSong === 'spotify-this-song') {
   console.log("Working on it...")
@@ -15,7 +17,7 @@ if (spotifyThisSong === 'spotify-this-song') {
 }
 
 function getSong() {
-  spotify.search({ type: 'track', query: songName }, function(err, data) {
+  spotify.search({ type: 'track', query: process.argv[3]}, function(err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
