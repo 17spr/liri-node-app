@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 // importing API keys from key.js file
-var myKeys = require("./keys.js")
+var keys = require("./keys.js")
 
 // Spotify API ======================================
 var Spotify = require('node-spotify-api');
@@ -10,6 +10,7 @@ var spotify = new Spotify({
   secret: process.env.SPOTIFY_SECRET
 });
 var spotifyThisSong = process.argv[2];
+var mySong = process.argv[3];
 
 if (spotifyThisSong === 'spotify-this-song') {
   console.log("Working on it...")
@@ -17,12 +18,12 @@ if (spotifyThisSong === 'spotify-this-song') {
 }
 
 function getSong() {
-  spotify.search({ type: 'track', query: process.argv[3]}, function(err, data) {
+  spotify.search({ type: 'track', query: mySong}, function(err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
    
-  console.log(data); 
+  console.log(JSON.stringify(data, null, 2)); 
   });
 }
 
