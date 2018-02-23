@@ -12,13 +12,26 @@ var spotify = new Spotify({
 var spotifyThisSong = process.argv[2];
 var mySong = process.argv[3];
 
-if (spotifyThisSong === 'spotify-this-song') {
-  console.log("Working on it...")
+if (spotifyThisSong === 'spotify-this-song' && mySong) {
+  console.log("Getting song...")
   getSong();
+} else if (spotifyThisSong === 'spotify-this-song' && mySong != true) {
+  theSign();
 }
 
 function getSong() {
   spotify.search({ type: 'track', query: mySong}, function(err, data) {
+    if (err) {
+      return console.log('Error occurred: ' + err);
+    }
+   
+  console.log(JSON.stringify(data, null, 2)); 
+  });
+}
+
+// function that defaults to 'The Sign' by Ace of Base if no other song is entered
+function theSign() {
+  spotify.search({ type: 'track', query: 'The Sign'}, function(err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
@@ -138,3 +151,30 @@ function mrNobody() {
   });
   
 };
+
+// Do-what-it-says ==============================
+var fs = require('fs');
+
+var doWhatItSays = process.argv[2];
+
+// logic for performing the function to run the `do-what-it-says` command
+
+if (doWhatItSays === 'do-what-it-says') {
+  myFunction();
+}
+
+function myFunction() {
+
+  fs.readFile("random.txt", "utf8", function(error, data) {
+    // logging any errors to the console
+    if (error) {
+      return console.log(error);
+    }
+    // then logging the contents of the random.txt file to the console
+    console.log("node liri.js " + data);
+    
+  
+  });
+}
+
+
