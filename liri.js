@@ -4,6 +4,7 @@ require("dotenv").config();
 var keys = require("./keys.js")
 
 // Spotify ======================================
+// use `spotify-this-song` command
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify({
   id: process.env.SPOTIFY_ID,
@@ -44,6 +45,7 @@ function theSign() {
 
 
 // Twitter =======================================
+// use `my-tweets` command
 
 // creating a variable to capture and store the `my-tweets` argument
 var myTweets = process.argv[2];
@@ -80,6 +82,7 @@ function getTweets() {
   
 }
 // OMDB ==========================================
+// use `movie-this` command
 
 // If the movie name has multiple words (for example: How the Grinch Stole Christmas), write the name in quotes. Otherwise it won't work.
 // for example: 
@@ -152,6 +155,7 @@ function mrNobody() {
 };
 
 // Do-what-it-says ==============================
+//  use `do-what-it-says` command 
 var fs = require('fs');
 
 var doWhatItSays = process.argv[2];
