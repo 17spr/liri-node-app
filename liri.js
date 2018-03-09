@@ -3,7 +3,7 @@ require("dotenv").config();
 // importing API keys from key.js file
 var keys = require("./keys.js")
 
-// Spotify API ======================================
+// Spotify ======================================
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify({
   id: process.env.SPOTIFY_ID,
@@ -13,9 +13,11 @@ var spotifyThisSong = process.argv[2];
 var mySong = process.argv[3];
 
 if (spotifyThisSong === 'spotify-this-song' && mySong) {
-  console.log("Getting song...")
+  console.log("Getting your song...")
   getSong();
-} else if (spotifyThisSong === 'spotify-this-song' && mySong != true) {
+} 
+  // defaulting to "The Sign" by Ace of Base if no song is specified
+else if (spotifyThisSong === 'spotify-this-song' && mySong != true) {
   theSign();
 }
 
@@ -29,7 +31,6 @@ function getSong() {
   });
 }
 
-// function that defaults to 'The Sign' by Ace of Base if no other song is entered
 function theSign() {
   spotify.search({ type: 'track', query: 'The Sign'}, function(err, data) {
     if (err) {
@@ -42,7 +43,7 @@ function theSign() {
 
 
 
-// Twitter API =======================================
+// Twitter =======================================
 
 // creating a variable to capture and store the `my-tweets` argument
 var myTweets = process.argv[2];
@@ -58,6 +59,7 @@ function getTweets() {
   var Twitter = require('twitter');
  
   var client = new Twitter({
+    // setting up the keys that are stored in .env file that is ignored when pushed to GitHub
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
     access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
@@ -67,7 +69,7 @@ function getTweets() {
   var params = {screen_name: 'Alias_Jesse'};
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
-      // looping through response array that contains each tweet to access the text and the creation date
+      // looping through response array to access the text and the creation date of each tweet
       for (i = 0; i < tweets.length; i++) {
         // displaying the results in the console 
         console.log(tweets[i].text);
@@ -77,14 +79,12 @@ function getTweets() {
   });
   
 }
-// OMDB API ==========================================
+// OMDB ==========================================
 
-// ***If the movie name has multiple words (for example: How the Grinch Stole Christmas), write the name in quotes. Otherwise it won't work.****
-// working example of using a multi-word movie name:
+// If the movie name has multiple words (for example: How the Grinch Stole Christmas), write the name in quotes. Otherwise it won't work.
+// for example: 
          // node .\liri.js movie-this "how the grinch stole christmas"
-// single-word movie name example: 
-         // node .\liri.js movie-this cinderella
-// ...................................................
+
 
 // variable to store `movie-this` argument 
 var movieThis = process.argv[2];
@@ -106,7 +106,6 @@ if (movieThis === 'movie-this' && movieName) {
 // creating the function that performs the OMDB API request
 function getMovie() {
   var request = require("request");
-  // concatenating the url parameters
   var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
 
   console.log("URL: " + queryUrl);
@@ -114,7 +113,7 @@ function getMovie() {
   request(queryUrl, function(error, response, body) {
   
   if (!error && response.statusCode === 200) {
-    // logging the data required in the homework description (title, release year, etc.)
+    // logging the JSON response for title, release year, etc.
     console.log("Title: " + JSON.parse(body).Title);
     console.log("Release Year: " + JSON.parse(body).Year);
     console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
@@ -152,27 +151,34 @@ function mrNobody() {
   
 };
 
-// // Do-what-it-says ==============================
-// var fs = require('fs');
+// Do-what-it-says ==============================
+var fs = require('fs');
 
-// var doWhatItSays = process.argv[2];
+var doWhatItSays = process.argv[2];
 
-// // logic for performing the function to run the `do-what-it-says` command
+// logic for performing the function to run the `do-what-it-says` command
 
-// if (doWhatItSays === 'do-what-it-says') {
-//   myFunction();
-// }
+if (doWhatItSays === 'do-what-it-says') {
+  myFunction();
+}
 
-// function myFunction() {
+function myFunction() {
 
-//   fs.readFile("random.txt", "utf8", function(error, data) {
-//     // logging any errors to the console
-//     if (error) {
-//       return console.log(error);
-//     }
-//     // then logging the contents of the random.txt file to the console
-//     console.log("node liri.js " + data);
-    
-  
-//   });
-// }
+  fs.readFile("random.txt", "utf8", function(error, data) {
+    if (error) {
+      return console.log(error);
+    }
+    dataArr = data.split(',')
+    console.log( dataArr[0] + " " + dataArr[1]);
+    mySong = dataArr[1];
+
+    if (dataArr[0] === 'spotify-this-song' && mySong) {
+      // using the function created at line 22
+      getSong();
+      
+    }
+  });
+
+ 
+
+  }
